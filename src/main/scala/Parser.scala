@@ -121,10 +121,10 @@ object Parser extends BillboardParser {
     basedir + songId + "/salami_chords.txt"
   }
 
-  def parseTranscription(songId: String): Try[Result[(String, String)]] =
+  def parseTranscription(songId: String): Try[Result[_]] =
     Try(transcription.parse(Source.fromFile(getPath(songId)).mkString))
 
-  def printTranscription(trans: Result[(String, String)], songId: String) = {
+  def printTranscription(trans: Result[_], songId: String) = {
     trans match {
       case s: Success[_] => println(s)
       case f: Failure => println(s"Parse error on $songId: $f")
