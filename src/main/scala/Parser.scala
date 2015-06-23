@@ -61,9 +61,6 @@ class BillboardParser {
     }
   }
 
-  // def spacedash(str: Parser[String], prefix: String): Parser[String] =
-
-
   // Musical labels
   val basic = P("pre-intro" | "intro" | "verse" | "chorus" | "bridge" | "refrain" | "theme")
   val instrumental = P("instrumental" | "solo" | "fade" ~ ("in" | "-in" | " in"))
@@ -132,7 +129,7 @@ object Parser extends BillboardParser {
   }
 
   def main(args: Array[String]) {
-    for (songId <- 1 to 1500 map { id => f"$id%04d" }) {
+    for (songId <- 1 to 3 map { id => f"$id%04d" }) {
       parseTranscription(songId) match {
         case scala.util.Success(t) => printTranscription(t, songId)
         case scala.util.Failure(e) => e match {
