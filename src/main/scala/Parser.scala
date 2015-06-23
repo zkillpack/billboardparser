@@ -2,9 +2,11 @@
  * Created by Dakota on 6/1/2015.
  */
 
+import fastparse.core.Result
 import fastparse.core.Result.{Failure, Success}
 import scala.io.Source
 import fastparse._
+import scala.util.Try
 
 object Transcription {
 
@@ -119,17 +121,28 @@ object Parser extends BillboardParser {
     basedir + songId + "/salami_chords.txt"
   }
 
+  def parseTranscription(songId: String): Try[Result[(String, String)]] =
+    Try(transcription.parse(Source.fromFile(getPath(songId)).mkString))
+
+  def printTranscription(trans: Result[(String, String)], songId: String) = {
+    trans match {
+      case s: Success[_] => println(s)
+      case f: Failure => println(s"Parse error on $songId: $f")
+    }
+  }
+
   def main(args: Array[String]) {
-    for (songId <- 1 to 3 map { id => f"$id%04d" }) {
-      try {
-        transcription.parse(Source.fromFile(getPath(songId)).mkString) match {
-          case s: Success[_] => println(s)
-          case f: Failure => println(s"Parse error on $songId: $f")
+    for (songId <- 1 to 1500 map { id => f"$id%04d" }) {
+      parseTranscription(songId) match {
+        case scala.util.Success(t) => printTranscription(t, songId)
+        case scala.util.Failure(e) => e match {
+          case e: java.io.FileNotFoundException => ()
+          case e: Exception => println(s"Error processing $songId: ${e.getMessage}")
         }
-      } catch {
-        case e: java.io.FileNotFoundException => ()
-        case e: Exception => println(s"Error processing $songId: $e")
       }
     }
   }
 }
+
+
+
