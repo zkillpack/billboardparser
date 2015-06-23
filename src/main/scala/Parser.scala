@@ -59,6 +59,9 @@ class BillboardParser {
     }
   }
 
+  // def spacedash(str: Parser[String], prefix: String): Parser[String] =
+
+
   // Musical labels
   val basic = P("pre-intro" | "intro" | "verse" | "chorus" | "bridge" | "refrain" | "theme")
   val instrumental = P("instrumental" | "solo" | "fade" ~ ("in" | "-in" | " in"))
@@ -91,22 +94,22 @@ class BillboardParser {
   val comment = P(meter | key)
   val properties = P(title ~! artist ~! ((meter ~ key) | (key ~ meter)))
 
-  // Chords and bars
+  // Chords and phrases
   val repeat = "x" ~ digits
   val elision = "->"
-  val barannotation = P(repeat | elision)
+  val phraseannotation = P(repeat | elision)
 
   val chordstring = P((chordinternals | pause).rep(sep = " "))
-  val chordlist = P("| " ~! chordstring.!.rep(sep = " | " ~ !barannotation) ~ " |" ~ " ".?)
+  val chordlist = P("| " ~! chordstring.!.rep(sep = " | " ~ !phraseannotation) ~ " |" ~ " ".?)
   val chordlists = P(chordlist.rep(1))
 
-  val event = P(functionword | chordlist.! ~ barannotation.!.? | instrument)
+  val event = P(functionword | chordlist.! ~ phraseannotation.!.? | instrument)
   val events = P(event.rep(sep = ", "))
 
-  val bar = P(fractional ~ whitespace ~ events.! ~ whitespace)
+  val phrase = P(fractional ~ whitespace ~ events.! ~ whitespace)
 
   // Top-level parser
-  val transcription = properties.! ~! whitespace ~! (bar | comment).rep(1).!
+  val transcription = properties.! ~! whitespace ~! (phrase | comment).rep(1).!
 }
 
 object Parser extends BillboardParser {
@@ -117,10 +120,10 @@ object Parser extends BillboardParser {
   }
 
   def main(args: Array[String]) {
-    for (songId <- 1 to 1500 map { id => f"$id%04d" }) {
+    for (songId <- 1 to 3 map { id => f"$id%04d" }) {
       try {
         transcription.parse(Source.fromFile(getPath(songId)).mkString) match {
-          case s: Success[_] => ()
+          case s: Success[_] => println(s)
           case f: Failure => println(s"Parse error on $songId: $f")
         }
       } catch {
