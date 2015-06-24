@@ -7,4 +7,8 @@ import spray.json.DefaultJsonProtocol
  */
 object BBJsonProtocol extends DefaultJsonProtocol {
   implicit val chordFormat = jsonFormat2(Transcription.Chord)
+  implicit val barFormat = jsonFormat1(Transcription.Bar)
+  implicit val numberedBarFormat = jsonFormat2(Transcription.NumberedBar)
+  implicit val phraseFormat = jsonFormat1(Transcription.Phrase)
+  // implicit val propsFormat = jsonFormat4(Transcription.Properties)
 }

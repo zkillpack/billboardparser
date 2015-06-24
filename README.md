@@ -22,4 +22,5 @@ useful information such as:
 
 ## Using
 ### Use **SBT** until I bother to actually finish this thing...
+Currently, the only thing this does is spit out chords and their beat positions.
 ``` > sbt run ```

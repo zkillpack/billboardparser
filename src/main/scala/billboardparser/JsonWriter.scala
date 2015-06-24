@@ -3,7 +3,10 @@
  */
 package billboardparser
 
-import spray.json._ // if you don't supply your own Protocol (see below)
+import spray.json._
+
+// if you don't supply your own Protocol (see below)
+
 import BBJsonProtocol._
 
 //
@@ -16,7 +19,7 @@ import BBJsonProtocol._
 //}
 
 object JsonWriter {
-  def write(t: Transcription.Chord) = {
+  def write(t: Transcription.Phrase) = {
     val pkl = t.toJson
     println(pkl)
     pkl
