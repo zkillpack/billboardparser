@@ -86,15 +86,17 @@ class BillboardParser {
   val chordstring = P((chordinternals | pause).rep(sep = " ")) map {
     chds =>
       chds.zipWithIndex map { case (cd, pos) =>
-        cd match {
+        val test = cd match {
           case "." => Transcription.Chord(
             chds(chds.take(pos + 1)
               .lastIndexWhere(_ != ".")),
             pos + 1)
           case _ => Transcription.Chord(cd, pos + 1)
         }
-      }
+         println(JsonWriter.write(test))
+          test
 
+      }
   } map Transcription.Bar.apply
 
   val chordlist = P("| " ~! chordstring.rep(sep = " | " ~ !phraseannotation) ~ " |" ~ " ".?) map Transcription.Phrase.apply
@@ -110,7 +112,7 @@ class BillboardParser {
   val phrase = P(fractional ~ whitespace ~ event.rep(1, sep = ", ") ~ whitespace) map {
     // cut out just chords for now
     p => val chords = p._4
-      println(chords)
+
       chords
   }
 

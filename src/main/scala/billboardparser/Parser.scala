@@ -5,6 +5,7 @@ package billboardparser
 
 import fastparse.core.Result
 import fastparse.core.Result.{Failure, Success}
+
 import scala.io.Source
 import scala.util.Try
 
