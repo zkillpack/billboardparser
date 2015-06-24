@@ -15,9 +15,9 @@ object Transcription {
 
   case class Key(key: String)
 
-  case class Chord(chord: String)
+  case class Chord(chord: String, beat: Int)
 
-  case class Bar(chords: String*)
+  case class Bar(chords: Chord*)
 
   case class Phrase(bars: Bar*)
 

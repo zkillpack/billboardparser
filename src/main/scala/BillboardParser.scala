@@ -83,7 +83,19 @@ class BillboardParser {
 
   val phraseannotation = P(repeat | elision)
 
-  val chordstring = P((chordinternals | pause).rep(sep = " ")) map Transcription.Bar.apply
+  val chordstring = P((chordinternals | pause).rep(sep = " ")) map {
+    chds =>
+      chds.zipWithIndex map { case (cd, pos) =>
+        cd match {
+          case "." => Transcription.Chord(
+            chds(chds.take(pos + 1)
+              .lastIndexWhere(_ != ".")),
+            pos + 1)
+          case _ => Transcription.Chord(cd, pos + 1)
+        }
+      }
+
+  } map Transcription.Bar.apply
 
   val chordlist = P("| " ~! chordstring.rep(sep = " | " ~ !phraseannotation) ~ " |" ~ " ".?) map Transcription.Phrase.apply
 
