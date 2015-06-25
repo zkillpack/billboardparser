@@ -1,5 +1,5 @@
 # McGill Billboard Project Dataset Parser
-# Chords! For music theorists and -ologists!
+## Chords! For music theorists and -ologists!
 ## Q: Why?
 ### A: Chords! Hypermeter! PC vectors! For your friendly neighborhood music theorists and -ologists!
 
