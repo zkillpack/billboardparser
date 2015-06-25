@@ -1,4 +1,4 @@
-# McGill Billboard Project Dataset Parser
+# McGill Billboard Project Dataset Parser (but currently little more than a steaming heap of questionable Scala)
 ## Chords! For music theorists and -ologists!
 ## Q: Why?
 ### A: Chords! Hypermeter! PC vectors! For your friendly neighborhood music theorists and -ologists!
