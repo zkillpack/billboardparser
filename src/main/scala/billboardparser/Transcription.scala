@@ -5,25 +5,32 @@ package billboardparser
 
 object Transcription {
 
-  abstract class MusicPrimitive
 
-  case class Title(title: String) extends MusicPrimitive
+  sealed trait Event
 
-  case class Artist(artist: String) extends MusicPrimitive
+  sealed trait Description extends Event
 
-  case class Meter(meter: String) extends MusicPrimitive
+  case class Title(title: String) extends Description
 
-  case class Key(key: String) extends MusicPrimitive
+  case class Artist(artist: String) extends Description
 
-  case class Chord(chord: String, beat: Int) extends MusicPrimitive
+  case class Meter(meter: String) extends Description
 
-  case class Bar(chords: Seq[Chord]) extends MusicPrimitive
+  case class Key(key: String) extends Description
+
+  case class Chord(chord: String, beat: Int) extends Event
+
+  case class Annotation(annotationText: String) extends Event
+
+  case class Bar(chords: Seq[Chord]) extends Event
 
   case class NumberedBar(chords: Seq[Chord], beat: Int)
 
-  case class Phrase(bars: Seq[Bar]) extends MusicPrimitive
+  case class Phrase(bars: Seq[Bar]) extends Event
 
-  case class Properties(title: Title, artist: Artist, meter: Meter, key: Key) extends MusicPrimitive
+  case class Properties(title: Title, artist: Artist, meter: Meter, key: Key) extends Description
+
+  case class Song(events: Seq[Seq[Event]])
 
   //
   //  object Properties {

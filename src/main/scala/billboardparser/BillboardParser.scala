@@ -55,23 +55,27 @@ class BillboardParser {
 
   val functionword = P((sectionlabel | basic | instrumental |
     transition | genrespecific | formspecific |
-    ending | songend | noise | silence).! ~ ((" " ~ word) | ("-" ~ lowerchar)).?)
+    ending | songend | noise | silence).! ~ ((" " ~ word) | ("-" ~ lowerchar)).?) map Transcription.Annotation.apply
 
   // Instrument annotations
   val istart = P("(" ~ wordstring)
   val iend = P(wordstring ~ ")")
   val inst = P("(" ~ wordstring ~ ")")
-  val instrument = P(inst | istart | iend)
+  val instrument = P(inst | istart | iend) map Transcription.Annotation.apply
 
   // Metadata
-  val title = P("# title: " ~ line).!.map(Transcription.Title)
-  val artist = P("# artist: " ~ line).!.map(Transcription.Artist)
-  val meter = P("# metre: " ~ line).!.map(Transcription.Meter)
-  val key = P("# tonic: " ~ line).!.map(Transcription.Key)
+  val title = P("# title: " ~ line).map(Transcription.Title)
+  val artist = P("# artist: " ~ line).map(Transcription.Artist)
+  val meter = P("# metre: " ~ line).map(Transcription.Meter)
+  val key = P("# tonic: " ~ line).map(Transcription.Key)
 
   // because apparently music grad students can't be consistent when annotating
 
-  val comment = P(meter | key)
+  val comment = P(meter | key).! map {
+    c =>
+      val a = Transcription.Annotation(c)
+      Seq(a)
+  }
 
   val properties = P(title
     ~! artist
@@ -99,21 +103,20 @@ class BillboardParser {
   val chordlist = P("| " ~! chordstring.rep(sep = " | " ~ !phraseannotation) ~ " |" ~ " ".?) map Transcription.Phrase.apply
 
   // TODO re-add annotation support...
-  val event = P(functionword | chordlist ~ &(phraseannotation.?) | instrument) map {
-    case x: Transcription.Phrase =>
-      println(JsonWriter.write(x))
-      x
-    case x: Any =>
-      x
-  }
+  val linesegment: Parser[Transcription.Event] = P(functionword | chordlist ~ &(phraseannotation.?) | instrument)
 
 
-  val phrase = P(fractional ~ whitespace ~ event.rep(1, sep = ", ") ~ whitespace) map {
+  val phrase = P(fractional ~ whitespace ~ linesegment.rep(1, sep = ", ") ~ whitespace) map {
     // cut out just chords for now
-    p => val chords = p._4
-      chords
+    p => val evs = p._4
+      evs
   }
 
   // Top-level parser
-  val transcription = P(properties.! ~! whitespace ~! (phrase | comment).!.rep(1)) // map(_._2 foreach println)
+  val transcription = P(properties ~! whitespace ~! (phrase | comment).rep(1)) map {
+    trans =>
+      val lines = trans._4
+      val result = Transcription.Song(lines)
+      JsonWriter.write(result)
+  }
 }

@@ -32,7 +32,7 @@ object Parser extends BillboardParser {
         case scala.util.Success(t) => printTranscription(t, songId)
         case scala.util.Failure(e) => e match {
           case e: java.io.FileNotFoundException => ()
-          case e: Exception => println(s"Error processing $songId: $e")
+          case e: Exception => println(s"Error processing $songId: $e}"); e.printStackTrace()
         }
       }
     }

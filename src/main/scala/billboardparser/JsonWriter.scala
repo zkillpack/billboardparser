@@ -4,24 +4,8 @@
 package billboardparser
 
 import spray.json._
-
-// if you don't supply your own Protocol (see below)
-
 import BBJsonProtocol._
 
-//
-//object JsonWriter {
-//  def write(t: Any) = {
-//    val pkl = t.pickle
-//    println(pkl)
-//    pkl
-//  }
-//}
-
 object JsonWriter {
-  def write(t: Transcription.Phrase) = {
-    val pkl = t.toJson
-    println(pkl)
-    pkl
-  }
+  def write(t: Transcription.Song) = t.toJson
 }
