@@ -27,7 +27,7 @@ object Parser extends BillboardParser {
   }
 
   def main(args: Array[String]) {
-    for (songId <- 353 to 353 map { id => f"$id%04d" }) {
+    for (songId <- 1 to 1500 map { id => f"$id%04d" }) {
       parseTranscription(songId) match {
         case scala.util.Success(t) => printTranscription(t, songId)
         case scala.util.Failure(e) => e match {
