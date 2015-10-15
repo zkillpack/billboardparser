@@ -1,4 +1,4 @@
-# McGill Billboard Project Dataset Parser (but currently little more than a steaming heap of questionable Scala)
+# McGill Billboard Project Dataset Parser 
 ## Chords! For music theorists and -ologists!
 ## Q: Why?
 ### A: Chords! Hypermeter! PC vectors! For your friendly neighborhood music theorists and -ologists!
@@ -21,6 +21,6 @@ useful information such as:
 - aggregation by section, beat class, as well as other **musically salient** features
 
 ## Using
-### Use **SBT** until I bother to actually finish this thing...
-Currently, the only thing this does is spit out chords and their beat positions.
+### Use **SBT** until I bother to actually add a nice interface.
+Only spits out chords + beat positions until I actually need more features implemented at the parsing rather than the data processing level.
 ``` > sbt run ```
