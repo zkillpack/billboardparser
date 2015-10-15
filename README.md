@@ -8,12 +8,9 @@ The currently available parsers, [the default Haskell-based parser by W. Bas de 
 have a focus on audio content retrieval, as is evidenced by the fact that they focus on timestamps 
 and give results that do not support queries about musical structure. 
 
-To remedy this, I have decided to adopt a 
-whatever-the-hell-is-in-a-musicologist's-brain-first approach rather than a signal-based approach. 
-Whatever that actually means...
+To remedy this, I have decided to adopt a symbolic-music-based approach rather than a signal-based approach. 
 
-This is a parser designed for corpus-based musicology and music theory, and as such, spits out
-useful information such as:
+This is a parser designed for corpus-based musicology and music theory, and as such, is designed for those who want information such as:
 
 - Position in meter, hypermeter, and phrase instead of just timestamps
 - chord reduction and/or transcription
