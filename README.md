@@ -10,12 +10,12 @@ and give results that do not support queries about musical structure.
 
 To remedy this, I have decided to adopt a symbolic-music-based approach rather than a signal-based approach. 
 
-This is a parser designed for corpus-based musicology and music theory, and as such, is designed for those who want information such as:
+This is a parser designed for corpus-based musicology and music theory, and as such, is designed for those who have goals that involve:
 
-- Position in meter, hypermeter, and phrase instead of just timestamps
-- chord reduction and/or transcription
-- pitch class vectors instead of just chord labels
-- aggregation by section, beat class, as well as other **musically salient** features
+- Chord rhythm given by position in meter, hypermeter, and phrase instead of just timestamps
+- Chord reduction and/or transcription
+- Pitch class vectors instead of just chord labels
+- Aggregation by section, beat class, as well as other **musically salient** features
 
 ## Using
 ### Use **SBT** until I bother to actually add a nice interface.
